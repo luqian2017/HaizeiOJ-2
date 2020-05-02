@@ -2,21 +2,47 @@
 #include <algorithm>
 using namespace std;
 
-void func(int s, int left) {
+int l, c, ans_cnt, fu, yuan, cnt;
+char let[30], ans[30];
+
+int func(int s, int left) {
     if (left == 0) {
-        return ;
+        if (yuan >= 1 && fu >= 2) {
+            for (int i = 0; i < ans_cnt; i++) {
+                cout << ans[i];
+            }
+            cout << endl;
+            cnt++;
+            if (cnt == 25000) {
+                return -1; //异常
+            }
+        }
+        return 0; //正常
     }
     for (int i = s; i < c; i++) {
         ans[ans_cnt] = let[i];
         ans_cnt++;
-        if (let[i] == 'a' || let[i] == 'e' ||let[i] == 'i' ||let[i] == 'o' ||let[i] == 'u') {
-
+        int f = 0;
+        if (let[i] == 'a' || let[i] == 'e' || let[i] == 'i' || let[i] == 'o' || let[i] == 'u') {
+            yuan++;
+            f = 1;
+        } else {
+            fu++;
         }
+        
+        if (func(i + 1, left - 1) == -1) {
+            return -1;
+        }
+        
+        if (f == 1) {
+            yuan--;
+        } else {
+            fu--;
+        }
+        ans_cnt--;
     }
+    return 0;
 }
-
-int l, c, ans_cnt;
-char let[30], ans[30];
 
 int main() {
     cin >> l >> c;
